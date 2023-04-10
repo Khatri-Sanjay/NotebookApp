@@ -12,7 +12,7 @@ public class ListView extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_view);
+        setContentView(R.layout.item_list_view);
 
         displayCategory = findViewById(R.id.display_note_category);
         displayTitle = findViewById(R.id.display_note_title);

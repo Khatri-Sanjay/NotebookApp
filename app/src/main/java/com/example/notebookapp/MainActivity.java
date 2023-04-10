@@ -1,6 +1,7 @@
 package com.example.notebookapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         btnAddNote = findViewById(R.id.btnAddNote);
+        RecyclerView rv = findViewById(R.id.recycleview_notes);
+        rv.setAdapter(new NotesAdapter());
 
         btnAddNote.setOnClickListener(new View.OnClickListener() {
             @Override
