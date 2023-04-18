@@ -52,9 +52,34 @@ public class AddNotesActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String title = editTitle.getText().toString();
                 String description = editDescriptiion.getText().toString();
+//                String cate = category.getText().toString();
 
-                Toast.makeText(AddNotesActivity.this, "Title :" + title + ", Description :" + description + ", Note Category : " + noteCategory, Toast.LENGTH_SHORT).show();
+                if (validate(title, description)) {
+                    Intent intent = new Intent();
+                    intent.putExtra("note_title", title);
+                    intent.putExtra("note_description", description);
+                    intent.putExtra("note_category", noteCategory);
+
+                    setResult(RESULT_OK,intent);
+                    finish();
+
+                }else {
+                      Toast.makeText(AddNotesActivity.this, "Validate data", Toast.LENGTH_SHORT).show();
+
+                }
+
+
+
             }
         });
     }
+
+    public boolean validate(String title,String description){
+        if (!title.isEmpty() && !description.isEmpty()){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
 }
