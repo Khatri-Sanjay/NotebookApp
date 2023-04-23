@@ -17,7 +17,7 @@ public class Note {
         return description;
     }
 
-    public String getCategoty() {
+    public String getCategory() {
         return categoty;
     }
 }

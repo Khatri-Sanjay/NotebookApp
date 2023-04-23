@@ -53,7 +53,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         }
 
         public void bindView(Note note){
-            category.setText(note.getCategoty());
+            category.setText(note.getCategory());
             title.setText(note.getTitle());
             description.setText(note.getDescription());
 

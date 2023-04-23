@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Note> notes;
     NotesAdapter adapter;
 
+    NotebookDB dbHelper;
+
     ActivityResultLauncher<Intent> resultIntent = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {
@@ -31,7 +33,12 @@ public class MainActivity extends AppCompatActivity {
                 String description = intent.getExtras().getString("note_description");
                 String category = intent.getExtras().getString("note_category");
                 Toast.makeText(MainActivity.this, "Title :" + title + " Description :" + description  , Toast.LENGTH_SHORT).show();
-                adapter.addData(new Note(title,description,category));
+
+                Note note = new Note(title,description,category);
+                adapter.addData(note);
+
+                dbHelper.addNote(note);
+
             }
         }
     });
@@ -41,8 +48,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        notes = new ArrayList<>();
 
+        dbHelper= new NotebookDB(getApplicationContext());
+
+        notes = new ArrayList<>();
+        notes.addAll(dbHelper.getAllNotes());
 
 
         btnAddNote = findViewById(R.id.btnAddNote);
