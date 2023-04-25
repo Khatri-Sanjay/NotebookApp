@@ -63,7 +63,7 @@ public class AddNotesActivity extends AppCompatActivity {
                     setResult(RESULT_OK,intent);
                     finish();
 
-                }else {
+                } else {
                       Toast.makeText(AddNotesActivity.this, "Validate data", Toast.LENGTH_SHORT).show();
 
                 }

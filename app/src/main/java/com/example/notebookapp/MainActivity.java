@@ -7,9 +7,11 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     NotesAdapter adapter;
 
     NotebookDB dbHelper;
+    LinearLayout ll_no_notes;
 
     ActivityResultLauncher<Intent> resultIntent = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
@@ -38,12 +41,16 @@ public class MainActivity extends AppCompatActivity {
                 adapter.addData(note);
 
                 dbHelper.addNote(note);
+                if (ll_no_notes.getVisibility() == View.VISIBLE) {
+                    ll_no_notes.setVisibility(View.GONE);
+                }
 
             }
         }
     });
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,13 +58,34 @@ public class MainActivity extends AppCompatActivity {
 
         dbHelper= new NotebookDB(getApplicationContext());
 
+        ll_no_notes = findViewById(R.id.ll_no_notes);
+
         notes = new ArrayList<>();
         notes.addAll(dbHelper.getAllNotes());
-
+        if (notes.size() < 1) {
+            ll_no_notes.setVisibility(View.VISIBLE);
+        } else {
+            ll_no_notes.setVisibility(View.GONE);
+        }
 
         btnAddNote = findViewById(R.id.btnAddNote);
         RecyclerView rv = findViewById(R.id.recycleview_notes);
-        adapter = new NotesAdapter(notes);
+        adapter = new NotesAdapter(notes, new NoteListener() {
+            @Override
+            public void onNoteClick(Note note) {
+                Intent intent = new Intent(MainActivity.this,NoteDetailActivity.class);
+                intent.putExtra("title",note.getTitle());
+                intent.putExtra("description", note.getDescription());
+                intent.putExtra("category",note.getCategory());
+
+                startActivity(intent);
+            }
+
+            @Override
+            public void onNoteDelete(Note note) {
+
+            }
+        });
         rv.setAdapter(adapter);
 
         btnAddNote.setOnClickListener(new View.OnClickListener() {
