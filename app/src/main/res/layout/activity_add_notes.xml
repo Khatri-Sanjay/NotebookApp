@@ -40,6 +40,16 @@
         android:hint="Type Something . . . . ."
         android:gravity="top"/>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/color_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_note_description"
+        tools:listitem="@layout/item_note_color"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="3"
+        android:orientation="horizontal"/>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

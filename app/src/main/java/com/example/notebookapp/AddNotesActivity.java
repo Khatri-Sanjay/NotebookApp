@@ -1,8 +1,10 @@
 package com.example.notebookapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,12 +16,17 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class AddNotesActivity extends AppCompatActivity {
 
     EditText editTitle, editDescriptiion;
     Spinner category;
     Button addNotes;
+    RecyclerView rvColor;
     String noteCategory;
+    Integer selectedColor = Color.WHITE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +37,27 @@ public class AddNotesActivity extends AppCompatActivity {
         category = findViewById(R.id.spinerCategory);
         editDescriptiion = findViewById(R.id.edit_note_description);
         addNotes = findViewById(R.id.add_note);
+        rvColor = findViewById(R.id.color_list);
 
         String[] items = {"Normal", "Urgent", "Normal"};
         ArrayAdapter spinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, items);
         category.setAdapter(spinnerAdapter);
+
+        ArrayList<Integer> colors = new ArrayList<Integer>();
+        for (int i = 0; i <=50; i++) {
+            Random random = new Random();
+            int color = Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
+            colors.add(color);
+        }
+
+        NoteColorAdapter adapter = new NoteColorAdapter(colors, new NoteColorListner() {
+            @Override
+            public void onNoteColorClicked(int color) {
+                selectedColor = color;
+            }
+        });
+        rvColor.setAdapter(adapter);
+
 
         category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -59,17 +83,14 @@ public class AddNotesActivity extends AppCompatActivity {
                     intent.putExtra("note_title", title);
                     intent.putExtra("note_description", description);
                     intent.putExtra("note_category", noteCategory);
+                    intent.putExtra("note_color", selectedColor);
 
                     setResult(RESULT_OK,intent);
                     finish();
 
                 } else {
                       Toast.makeText(AddNotesActivity.this, "Validate data", Toast.LENGTH_SHORT).show();
-
                 }
-
-
-
             }
         });
     }

@@ -35,9 +35,10 @@ public class MainActivity extends AppCompatActivity {
                 String title = intent.getExtras().getString("note_title");
                 String description = intent.getExtras().getString("note_description");
                 String category = intent.getExtras().getString("note_category");
+                Integer color = intent.getExtras().getInt("note_color");
                 Toast.makeText(MainActivity.this, "Title :" + title + " Description :" + description  , Toast.LENGTH_SHORT).show();
 
-                Note note = new Note(title,description,category);
+                Note note = new Note(title,description,category, color);
                 adapter.addData(note);
 
                 dbHelper.addNote(note);
