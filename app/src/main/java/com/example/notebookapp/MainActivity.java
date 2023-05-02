@@ -4,10 +4,12 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -84,7 +86,21 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onNoteDelete(Note note) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setMessage("Do you want to delete?");
+                builder.setTitle("WARNING");
+                builder.setCancelable(true);
+                builder.setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
+                    dbHelper.deleteNote(note.getId());
+                    adapter.deleteNote(note);
+                });
 
+                builder.setNegativeButton("No",(DialogInterface.OnClickListener) (dialog, which) -> {
+                    dialog.cancel();
+                });
+
+                AlertDialog alterDialog = builder.create();
+                alterDialog.show();
             }
         });
         rv.setAdapter(adapter);

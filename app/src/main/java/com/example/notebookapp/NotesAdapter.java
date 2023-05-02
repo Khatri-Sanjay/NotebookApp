@@ -8,6 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.card.MaterialCardView;
+
 import java.util.ArrayList;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHolder> {
@@ -24,6 +26,13 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         notes.add(note);
         notifyItemInserted(notes.size());
     }
+
+    public void deleteNote(Note note) {
+        Integer index = notes.indexOf(note);
+        notes.remove(index);
+        notifyItemRangeChanged(0, notes.size());
+    }
+
     @NonNull
     @Override
     public NotesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -45,20 +54,22 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
 
         TextView title;
         TextView description, category;
+        MaterialCardView cardNote;
         public NotesViewHolder(@NonNull View itemView) {
             super(itemView);
 
             category = itemView.findViewById(R.id.display_note_category);
             title = itemView.findViewById(R.id.display_note_title);
             description = itemView.findViewById(R.id.display_note_description);
-
+            cardNote = itemView.findViewById(R.id.cardViewColor);
         }
 
         public void bindView(Note note){
             category.setText(note.getCategory());
             title.setText(note.getTitle());
             description.setText(note.getDescription());
-            itemView.setBackgroundColor(note.getColor());
+            cardNote.setCardBackgroundColor(note.getColor());
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
