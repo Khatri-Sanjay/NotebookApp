@@ -8,12 +8,19 @@
     android:layout_margin="20dp"
     tools:context=".AddNotesActivity">
 
+    <com.google.android.material.appbar.MaterialToolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_note_toolbar"
+        android:layout_alignParentTop="true"
+        app:title="Toolbar"/>
+
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:id="@+id/spinerCategory"
+        android:layout_below="@+id/add_note_toolbar"
         android:background="@drawable/rounded_corner"
-        android:layout_alignParentTop="true"
         android:padding="16dp"
         android:layout_marginTop="12dp"
         />

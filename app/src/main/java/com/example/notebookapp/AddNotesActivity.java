@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class AddNotesActivity extends AppCompatActivity {
     RecyclerView rvColor;
     String noteCategory;
     Integer selectedColor = Color.WHITE;
+    MaterialToolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,9 @@ public class AddNotesActivity extends AppCompatActivity {
         editDescriptiion = findViewById(R.id.edit_note_description);
         addNotes = findViewById(R.id.add_note);
         rvColor = findViewById(R.id.color_list);
+        toolbar = findViewById(R.id.add_note_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         String[] items = {"Normal", "Urgent", "Normal"};
         ArrayAdapter spinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, items);
